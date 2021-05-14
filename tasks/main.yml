@@ -1,0 +1,4 @@
+---
+# tasks file for Packer
+- import_tasks: Install_Packer.yml
+- import_tasks: Create_Image.yml

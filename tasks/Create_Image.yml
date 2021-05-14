@@ -1,0 +1,37 @@
+---
+
+ - name: Create directory for packer 
+   file:
+    path: /opt/packer
+    state: directory
+   
+ - name: Create directory for packer preseed.cfg
+   file:
+    path: /opt/packer/http
+    state: directory
+ 
+ - name: Copy preseed.cfg on host
+   copy:
+    src: /etc/ansible/roles/Packer/files/preseed.cfg
+    dest: /opt/packer/http
+
+ - name: Copy template ubuntu.json
+   copy:
+    src: /etc/ansible/roles/Packer/files/ubuntu.json
+    dest: /opt/packer
+ 
+ - name: Create iso Directory
+   file:
+    path: /opt/packer/iso
+    state: directory
+
+ - name: Check if iso exists
+   stat:
+    path: /opt/packer/iso/ubuntu-18.04.5-server-amd64.iso
+   register: check_command
+
+ - name: Download Ubuntu iso if doesn't exists
+   get_url: 
+    url: http://cdimage.ubuntu.com/ubuntu/releases/18.04/release/ubuntu-18.04.5-server-amd64.iso
+    dest: /opt/packer/iso/
+   when: not check_command.stat.exists

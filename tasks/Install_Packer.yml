@@ -1,0 +1,34 @@
+---
+
+ - name: Add an apt signing key
+   apt_key:
+    state: present
+    url: https://apt.releases.hashicorp.com/gpg
+
+ - name: Add the official HashiCorp Linux repository
+   lineinfile:
+    line: "deb [arch=amd64] https://apt.releases.hashicorp.com bionic main"
+    dest: /etc/apt/sources.list
+
+ - name: Update and Upgrade host
+   apt:
+    update_cache: yes
+    upgrade: yes
+
+ - name: Install Packer
+   apt:
+    name: packer
+    state: latest
+
+ - name: Install Virtualbox
+   apt:
+    name: virtualbox
+    state: latest
+
+ - name: Check Packer version
+   shell : packer --version
+   register: packer_result
+  
+ - name: Print the Packer version
+   debug:
+    msg: "This is the return of the command Packer --version: {{ packer_result.stdout }}"
