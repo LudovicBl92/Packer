@@ -1,5 +1,7 @@
 # Packer
 
+This playbook is functional on ubuntu 18.04
+
 This role permit to discover Packer.
 
 Do the command to execute the playbook: ansible-playbook Run-Packer.yml
